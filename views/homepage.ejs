@@ -13,13 +13,29 @@
     <div id="header">
         <img src="/images/pobrane.png" alt="" id="logo">
         <h2 id="header-h2" class="mx-5">Sklep z suplementami</h2>
-        <% if(data == true){ %>
+
+
+        
+
+
+
+        <% if(data == true && admin == true){ %>
         <div id="login-register">
             <h2> zalogowano</h2>
-            <p id="name"> <%= name %></p>
+           <a id="username" href="" class="btn btn-success"> <div > <%= name %></div></a>
          </div>
 
-        <% } else{ %>
+         <% } %>
+
+    
+        <% if(data == true && admin == false){ %>
+            <div id="login-register">
+                <h2> zalogowano</h2>
+              <div id="username" > <%= name %></div>
+             </div>
+    
+            <% } %>
+           <% if (data==false){ %>
 
         <div id="login-register">
           <a href="login" id="login">Zaloguj się</a>
@@ -73,8 +89,12 @@
         border-radius: 10%;
         border-style: solid none solid none;
     }
-    #name{
+    #username{
+        display: flex;
         margin-left: 2rem;
+        align-items: center;
+        text-align: center;
+
     }
     #login-register{
         margin-left: 2rem;
@@ -92,6 +112,7 @@
         margin: 0 1rem 1rem 0;
     }
     #main{
+        text-align: center;
         margin: auto;
         margin-top: 2rem;
         display: flex;

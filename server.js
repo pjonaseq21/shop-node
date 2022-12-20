@@ -22,13 +22,17 @@ app.use(express.urlencoded({ extended : false}))
 app.get("/",(req,res)=>{
 	if (req.session.admin){
 		console.log("admin zalogowany")
+		connection.query("SELECT * FROM produkty",(err,result)=>{
+			console.log(result)
+		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true})
+	})
+
 	}
-	console.log(req.session.logged)
-	if(req.session.logged){
+	if(req.session.logged && req.session.admin ==false){
 		console.log("uzytkownik zweryfikowany")
 		connection.query("SELECT * FROM produkty",(err,result)=>{
 			console.log(result)
-			res.render("homepage",{data:true,name:req.session.username,products:result})
+			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false})
 
 		})
 
@@ -58,14 +62,18 @@ app.post("/login",(req,res)=>{
 	console.log(password)
 
 	connection.query("SELECT * FROM users_data WHERE login=? AND password=?",[login,password],(err,result)=>{
-		if (login == "admin"){
+		if (result.length > 0 && login == "admin"){
 			req.session.admin = true;
-	
+			req.session.logged = true;
+			req.session.username = login;
+			res.redirect("/")
+
 		}
-		if(result.length > 0){
+		else if(result.length > 0 && login != "admin"){
 			console.log("udane logowanie")
 			req.session.logged = true;
 			req.session.username = login;
+			req.session.admin = false;
 			res.redirect("/")
 		}
 		else{
