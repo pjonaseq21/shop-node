@@ -14,12 +14,16 @@
         <img src="/images/pobrane.png" alt="" id="logo">
         <h2 id="header-h2" class="mx-5">Sklep z suplementami</h2>
         <% if(data == true){ %>
-        <h2> zalogowano</h2>
+        <div id="login-register">
+            <h2> zalogowano</h2>
+            <p id="name"> <%= name %></p>
+         </div>
+
         <% } else{ %>
 
         <div id="login-register">
-            <a href="login" id="login">Zaloguj się</a>
-            </div>
+          <a href="login" id="login">Zaloguj się</a>
+        </div>
             <% } %>
 
     </div>
@@ -35,13 +39,43 @@
     </div>
 
     <div id="main">
-
+        <% products.forEach((product) =>{ %>
+        <div id="products">
+           
+            <img src="/images/<%= product.photo %>" id="product-photo">
+            <p id="product-name">
+                <%=  product.name %>
+            </p>
+            <strong><p>
+                <%=    product.cena %> zł
+            </p></strong>
+        </div>
+        <% }); %> 
 
 
     </div>
 
 
 <style>
+    #product-name{
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+
+    }
+    #product-photo{
+        max-width: 100px;
+    }
+    #products{
+        margin: 2rem;
+        padding: 1rem;
+        border: rgb(104, 111, 122) 0.5px;
+        height: 250px;
+        border-radius: 10%;
+        border-style: solid none solid none;
+    }
+    #name{
+        margin-left: 2rem;
+    }
     #login-register{
         margin-left: 2rem;
         align-items: center;
@@ -60,6 +94,7 @@
     #main{
         margin: auto;
         margin-top: 2rem;
+        display: flex;
         width: 80%;
         height: 700px;
         border: 1px solid rgb(81, 106, 143);

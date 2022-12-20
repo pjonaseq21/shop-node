@@ -21,14 +21,23 @@ app.use(express.urlencoded({ extended : false}))
 
 app.get("/",(req,res)=>{
 	if (req.session.admin){
-		console.log("admin zalogowany 2")
+		console.log("admin zalogowany")
 	}
+	console.log(req.session.logged)
 	if(req.session.logged){
 		console.log("uzytkownik zweryfikowany")
-		res.render("homepage",{data: true})
+		connection.query("SELECT * FROM produkty",(err,result)=>{
+			console.log(result)
+			res.render("homepage",{data:true,name:req.session.username,products:result})
+
+		})
+
+
 	}else{
-		console.log("chuj")
-		res.redirect("/")
+		connection.query("SELECT * FROM produkty",(err,result)=>{
+
+		res.render("homepage",{data:false,products:result})
+		})
 	}
 	
 })
@@ -49,9 +58,14 @@ app.post("/login",(req,res)=>{
 	console.log(password)
 
 	connection.query("SELECT * FROM users_data WHERE login=? AND password=?",[login,password],(err,result)=>{
-		if(res.length > 0){
+		if (login == "admin"){
+			req.session.admin = true;
+	
+		}
+		if(result.length > 0){
 			console.log("udane logowanie")
 			req.session.logged = true;
+			req.session.username = login;
 			res.redirect("/")
 		}
 		else{
@@ -59,15 +73,7 @@ app.post("/login",(req,res)=>{
 		}
 
 	})
-	if (login == "admin"){
-		req.session.admin = true;
-		req.session.logged = true;
-		res.redirect("/")
 
-	}else{
-		res.redirect("/")
-
-	}
 })
 app.get("/admin",(req,res)=>{
 	if (req.session.admin ==true){
