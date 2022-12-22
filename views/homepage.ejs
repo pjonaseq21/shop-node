@@ -42,6 +42,11 @@
         </div>
             <% } %>
 
+            <div>
+                <span>()</span>
+                <img id="shopping-cart" src="/images/cart.jpg" alt="">
+            
+            </div>
     </div>
 
 
@@ -57,14 +62,19 @@
     <div id="main">
         <% products.forEach((product) =>{ %>
         <div id="products">
-           
-            <img src="/images/<%= product.photo %>" id="product-photo">
-            <p id="product-name">
+            <form action="/addproduct" method="post">
+
+            <img src="/images/<%= product.photo %>" id="product-photo"><br>
+            <input type="hidden" id="product-name" name="product_name" value="<%=  product.name %>">
                 <%=  product.name %>
-            </p>
-            <strong><p>
+            </input><br>
+            <strong>
+                <input type="hidden" name="product_price" value="<%=    product.cena %>">
                 <%=    product.cena %> zł
-            </p></strong>
+            </input>
+        </strong><br>
+            <button type="submit" class="btn btn-success">Do koszyka</button>
+            </form>
         </div>
         <% }); %> 
 
@@ -73,6 +83,10 @@
 
 
 <style>
+    #shopping-cart{
+        width: 50px;
+        height: 50px;
+    }
     #product-name{
         margin-left: 0.5rem;
         margin-right: 0.5rem;
@@ -85,7 +99,7 @@
         margin: 2rem;
         padding: 1rem;
         border: rgb(104, 111, 122) 0.5px;
-        height: 250px;
+        height: 300px;
         border-radius: 10%;
         border-style: solid none solid none;
     }
@@ -115,6 +129,7 @@
         text-align: center;
         margin: auto;
         margin-top: 2rem;
+        padding: auto;
         display: flex;
         width: 80%;
         height: 700px;

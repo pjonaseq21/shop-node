@@ -4,12 +4,16 @@ const app = express()
 const session = require('express-session');
 const config = require("./db/database")
 let connection = mysql.createConnection(config);
-
-
+const bodyParser = require('body-parser')
+const cookieParser = require("cookie-parser");
+const { json } = require("body-parser");
+app.use(cookieParser())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
 	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+	resave: false,
+	saveUninitialized: false
 }));
 
 app.use('/images', express.static(process.cwd() + '/images'))
@@ -18,26 +22,29 @@ app.use('/images', express.static(process.cwd() + '/images'))
 app.set("view engine", 'ejs')
 
 app.use(express.urlencoded({ extended : false}))
-
 app.get("/",(req,res)=>{
 	if (req.session.admin){
-		console.log("admin zalogowany")
+		console.log(req.session)
+
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-			console.log(result)
 		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true})
 	})
 
 	}
-	if(req.session.logged && req.session.admin ==false){
-		console.log("uzytkownik zweryfikowany")
+	else if(req.session.logged && req.session.admin ==false){
+		console.log(req.session)
+
+
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-			console.log(result)
 			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false})
 
 		})
 
 
 	}else{
+		console.log(req.session)
+
+
 		connection.query("SELECT * FROM produkty",(err,result)=>{
 
 		res.render("homepage",{data:false,products:result})
@@ -65,6 +72,7 @@ app.post("/login",(req,res)=>{
 		if (result.length > 0 && login == "admin"){
 			req.session.admin = true;
 			req.session.logged = true;
+			req.session.shoppingCart = []
 			req.session.username = login;
 			res.redirect("/")
 
@@ -73,6 +81,8 @@ app.post("/login",(req,res)=>{
 			console.log("udane logowanie")
 			req.session.logged = true;
 			req.session.username = login;
+			req.session.shoppingCart = []
+
 			req.session.admin = false;
 			res.redirect("/")
 		}
@@ -92,4 +102,17 @@ app.get("/admin",(req,res)=>{
 app.get("/404",(req,res)=>{
 	res.render("error404")
 })
+app.post("/addproduct",(req,res)=>{
+	let data = req.body
+	console.log('x',req.session.shoppingCart)
+	// req.session.shoppingCart
+	
+		req.session.shoppingCart.push(data)
+
+	res.redirect("/")
+
+	
+})
+
+
 app.listen(8000)
