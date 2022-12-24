@@ -31,7 +31,7 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true})
+		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true,cart: req.session.shoppingCart.length})
 	})
 
 	}
@@ -50,7 +50,6 @@ app.get("/",(req,res)=>{
 
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-
 		res.render("homepage",{data:false,products:result})
 		})
 	}
@@ -109,7 +108,6 @@ app.get("/404",(req,res)=>{
 })
 app.post("/addproduct",(req,res)=>{
 	let data = req.body
-	console.log('x',req.session.shoppingCart)
 	// req.session.shoppingCart
 	
 		req.session.shoppingCart.push(data)
@@ -122,5 +120,15 @@ app.get("/logout",(req,res)=>{
 	req.session.destroy()
 	res.redirect("/")
 })
+app.get("/cart",(req,res)=>{
+	if (req.session.logged != true){
+		return res.redirect("/")
+	}
 
+	for(i=0;i<req.session.shoppingCart.length;i++){
+		console.log(req.session.shoppingCart[i].product_name)
+	}
+
+	return res.render("cart",{data:true,name:req.session.username})
+})
 app.listen(8000)
