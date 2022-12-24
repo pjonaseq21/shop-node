@@ -7,6 +7,7 @@ let connection = mysql.createConnection(config);
 const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const { json } = require("body-parser");
+
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +16,9 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }));
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
 
 app.use('/images', express.static(process.cwd() + '/images'))
 
@@ -36,7 +40,7 @@ app.get("/",(req,res)=>{
 
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false})
+			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false,cart:req.session.shoppingCart.length})
 
 		})
 
@@ -63,10 +67,10 @@ app.get("/login",(req,res)=>{
 	res.render("login")
 })
 app.post("/login",(req,res)=>{
+	console.log(req.body)
 	let login = req.body.login
 	let password = req.body.password
-	console.log(login)
-	console.log(password)
+
 
 	connection.query("SELECT * FROM users_data WHERE login=? AND password=?",[login,password],(err,result)=>{
 		if (result.length > 0 && login == "admin"){
@@ -74,6 +78,7 @@ app.post("/login",(req,res)=>{
 			req.session.logged = true;
 			req.session.shoppingCart = []
 			req.session.username = login;
+
 			res.redirect("/")
 
 		}
@@ -113,6 +118,9 @@ app.post("/addproduct",(req,res)=>{
 
 	
 })
-
+app.get("/logout",(req,res)=>{
+	req.session.destroy()
+	res.redirect("/")
+})
 
 app.listen(8000)
