@@ -124,11 +124,40 @@ app.get("/cart",(req,res)=>{
 	if (req.session.logged != true){
 		return res.redirect("/")
 	}
-
+	let arr = []
 	for(i=0;i<req.session.shoppingCart.length;i++){
-		console.log(req.session.shoppingCart[i].product_name)
+		arr.push('"' + req.session.shoppingCart[i].product_name + '"')
 	}
+	connection.query(`SELECT * FROM produkty WHERE name IN (${arr})`,(err,result)=>{
+		const productCounts = {};
 
-	return res.render("cart",{data:true,name:req.session.username})
+		let productsArray = result
+		for (const info of productsArray){
+			info.count = 1
+		}
+		const products = req.session.shoppingCart
+		for (const product of products) {
+			if (productCounts[product.product_name]) {
+				productCounts[product.product_name]++;
+				for (const info of productsArray){
+					if (info.name == product.product_name){
+						info.count += 1
+					}
+				}
+				
+				
+				} else {
+				productCounts[product.product_name] = 1;
+				}
+				
+				}
+
+				console.log(productsArray)
+			
+
+	 
+		res.render("cart",{data:true,name:req.session.username,cart_products: result,test: req.session.shoppingCart,count:productCounts})
+	}
+	)
 })
 app.listen(8000)
