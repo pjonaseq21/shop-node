@@ -1,5 +1,5 @@
 const express = require("express")
-const mysql = require("mysql")
+const mysql = require("mysql2")
 const app = express()
 const session = require('express-session');
 const config = require("./db/database")
@@ -30,7 +30,7 @@ app.get("/",(req,res)=>{
 	if (req.session.admin){
 		console.log(req.session)
 
-		connection.query("SELECT * FROM produkty",(err,result)=>{
+		connection.query("SELECT * FROM produkty;",(err,result)=>{
 		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true,cart: req.session.shoppingCart.length})
 	})
 
@@ -39,7 +39,7 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 
-		connection.query("SELECT * FROM produkty",(err,result)=>{
+		connection.query("SELECT * FROM produkty;",(err,result)=>{
 			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false,cart:req.session.shoppingCart.length})
 
 		})
@@ -49,14 +49,15 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 
-		connection.query("SELECT * FROM produkty",(err,result)=>{
+		connection.query("SELECT * FROM produkty;",(err,result)=>{
+		console.log(err);
 		res.render("homepage",{data:false,products:result})
 		})
 	}
 	
 })
 app.get("/przedtreningowki",(req,res)=>{
-	connection.query("SELECT * FROM shop_products",(req,res)=>{
+	connection.query("SELECT * FROM shop_products;",(req,res)=>{
 
 		console.log(res)
 	})
@@ -71,7 +72,7 @@ app.post("/login",(req,res)=>{
 	let password = req.body.password
 
 
-	connection.query("SELECT * FROM users_data WHERE login=? AND password=?",[login,password],(err,result)=>{
+	connection.query("SELECT * FROM users_data WHERE login=? AND password=?;",[login,password],(err,result)=>{
 		if (result.length > 0 && login == "admin"){
 			req.session.admin = true;
 			req.session.logged = true;
@@ -128,9 +129,9 @@ app.get("/cart",(req,res)=>{
 	for(i=0;i<req.session.shoppingCart.length;i++){
 		arr.push('"' + req.session.shoppingCart[i].product_name + '"')
 	}
-	connection.query(`SELECT * FROM produkty WHERE name IN (${arr})`,(err,result)=>{
+	connection.query(`SELECT * FROM produkty WHERE name IN (${arr});`,(err,result)=>{
 		const productCounts = {};
-
+		console.log(result)
 		let productsArray = result
 		for (const info of productsArray){
 			info.count = 1
