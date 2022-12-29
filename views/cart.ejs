@@ -12,7 +12,9 @@
 
 
     <div id="header">
+        <a href="/">
         <img src="/images/pobrane.png" alt="" id="logo">
+    </a>
         <h2 id="header-h2" class="mx-5">Sklep z suplementami</h2>
 
 
@@ -57,8 +59,8 @@
 
             <img  id="product-photo" src="/images/<%= product.photo %>" class="col-xl"></img>
             <div class="col-sm" ><%= product.name %></div>
-            <div class="col-sm" ><%= product.cena %></div>
-            <div class="col-sm"><%= product.count %></div>
+            <div class="col-sm" ><%= product.cena %> zł</div>
+            <div class="col-sm">ilość <%= product.count %></div>
 
 
 
