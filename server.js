@@ -7,7 +7,10 @@ let connection = mysql.createConnection(config);
 const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const { json } = require("body-parser");
+const multer  = require('multer')
+const upload = multer({ dest: '/images' })
 
+app.use(express.static(__dirname+'/images'));
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -105,6 +108,15 @@ app.get("/admin",(req,res)=>{
 })
 app.get("/404",(req,res)=>{
 	res.render("error404")
+})
+app.post("/addproducttodb",upload.single('file'),(req,res,err)=>{
+	console.log(req.file)
+	let data = req.body
+	console.log(data)
+	if(err){
+		console.log(err)
+	}
+	res.redirect("admin")
 })
 app.post("/addproduct",(req,res)=>{
 	let data = req.body
