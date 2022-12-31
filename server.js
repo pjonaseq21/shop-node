@@ -8,7 +8,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const { json } = require("body-parser");
 const multer  = require('multer')
-const upload = multer({ dest: '/images' })
+const helmet = require("helmet");
+const fs = require("fs")
 
 app.use(express.static(__dirname+'/images'));
 app.use(cookieParser())
@@ -19,6 +20,11 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }));
+app.use(helmet())
+
+
+  
+  var upload = multer({ dest: "./images" });
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -109,8 +115,12 @@ app.get("/admin",(req,res)=>{
 app.get("/404",(req,res)=>{
 	res.render("error404")
 })
-app.post("/addproducttodb",upload.single('file'),(req,res,err)=>{
-	console.log(req.file)
+app.post("/addproducttodb",upload.single('uploaded_file'),(req,res,err)=>{
+	fs.rename(req.file.path, `./images/${req.body.nazwa}.jpg`,(err)=>{
+		if (err){
+			console.log(err)
+		}
+	})
 	let data = req.body
 	console.log(data)
 	if(err){
