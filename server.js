@@ -7,7 +7,11 @@ let connection = mysql.createConnection(config);
 const bodyParser = require('body-parser')
 const cookieParser = require("cookie-parser");
 const { json } = require("body-parser");
+const multer  = require('multer')
+const helmet = require("helmet");
+const fs = require("fs")
 
+app.use(express.static(__dirname+'/images'));
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,6 +20,11 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }));
+app.use(helmet())
+
+
+  
+  var upload = multer({ dest: "./images" });
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -106,6 +115,26 @@ app.get("/admin",(req,res)=>{
 })
 app.get("/404",(req,res)=>{
 	res.render("error404")
+})
+app.post("/addproducttodb",upload.single('uploaded_file'),(req,res,err)=>{
+	fs.rename(req.file.path, `./images/${req.body.nazwa}.jpg`,(err)=>{
+		if (err){
+			console.log(err)
+		}
+	})
+	let data = req.body
+	console.log(data)
+	console.log(data.type)
+	console.log("test")	
+connection.query(`INSERT INTO produkty(type,photo,name,cena) VALUES("${data.type}","${req.body.nazwa}.jpg","${req.body.nazwa}","${data.cena}")`,(req,result)=>{
+	if(err){
+	console.log(err)
+}
+})
+	if(err){
+		console.log(err)
+	}
+	res.redirect("admin")
 })
 app.post("/addproduct",(req,res)=>{
 	let data = req.body
