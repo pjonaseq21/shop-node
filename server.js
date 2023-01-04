@@ -1,5 +1,5 @@
 const express = require("express")
-const mysql = require("mysql2")
+const mysql = require("mysql")
 const app = express()
 const session = require('express-session');
 const config = require("./db/database")
@@ -15,14 +15,19 @@ app.use(express.static(__dirname+'/images'));
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+ 
+
 app.use(session({
 	secret: 'secret',
 	resave: false,
 	saveUninitialized: false
 }));
-app.use(helmet())
-
-
+app.use(
+	helmet({
+	  contentSecurityPolicy: false,
+	})
+  );
   
   var upload = multer({ dest: "./images" });
 
@@ -39,7 +44,7 @@ app.get("/",(req,res)=>{
 	if (req.session.admin){
 		console.log(req.session)
 
-		connection.query("SELECT * FROM produkty;",(err,result)=>{
+		connection.query("SELECT * FROM produkty",(err,result)=>{
 		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true,cart: req.session.shoppingCart.length})
 	})
 
@@ -48,7 +53,7 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 
-		connection.query("SELECT * FROM produkty;",(err,result)=>{
+		connection.query("SELECT * FROM produkty",(err,result)=>{
 			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false,cart:req.session.shoppingCart.length})
 
 		})
@@ -58,15 +63,14 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 
-		connection.query("SELECT * FROM produkty;",(err,result)=>{
-		console.log(err);
+		connection.query("SELECT * FROM produkty",(err,result)=>{
 		res.render("homepage",{data:false,products:result})
 		})
 	}
 	
 })
 app.get("/przedtreningowki",(req,res)=>{
-	connection.query("SELECT * FROM shop_products;",(req,res)=>{
+	connection.query("SELECT * FROM shop_products",(req,res)=>{
 
 		console.log(res)
 	})
@@ -81,7 +85,7 @@ app.post("/login",(req,res)=>{
 	let password = req.body.password
 
 
-	connection.query("SELECT * FROM users_data WHERE login=? AND password=?;",[login,password],(err,result)=>{
+	connection.query("SELECT * FROM users_data WHERE login=? AND password=?",[login,password],(err,result)=>{
 		if (result.length > 0 && login == "admin"){
 			req.session.admin = true;
 			req.session.logged = true;
@@ -124,13 +128,6 @@ app.post("/addproducttodb",upload.single('uploaded_file'),(req,res,err)=>{
 	})
 	let data = req.body
 	console.log(data)
-	console.log(data.type)
-	console.log("test")	
-connection.query(`INSERT INTO produkty(type,photo,name,cena) VALUES("${data.type}","${req.body.nazwa}.jpg","${req.body.nazwa}","${data.cena}")`,(req,result)=>{
-	if(err){
-	console.log(err)
-}
-})
 	if(err){
 		console.log(err)
 	}
@@ -158,9 +155,9 @@ app.get("/cart",(req,res)=>{
 	for(i=0;i<req.session.shoppingCart.length;i++){
 		arr.push('"' + req.session.shoppingCart[i].product_name + '"')
 	}
-	connection.query(`SELECT * FROM produkty WHERE name IN (${arr});`,(err,result)=>{
+	connection.query(`SELECT * FROM produkty WHERE name IN (${arr})`,(err,result)=>{
 		const productCounts = {};
-		console.log(result)
+
 		let productsArray = result
 		for (const info of productsArray){
 			info.count = 1

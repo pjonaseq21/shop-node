@@ -4,15 +4,12 @@
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "express-csp-header": "^5.1.0",
     "express-session": "^1.17.3",
-<<<<<<< HEAD
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.3"
-=======
     "fs": "^0.0.1-security",
     "helmet": "^6.0.1",
     "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1"
->>>>>>> 2ddae087d148595d9f7c21708270e7f70e09323e
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3"
   }
 }
