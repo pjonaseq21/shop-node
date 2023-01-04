@@ -28,17 +28,63 @@
          <button class="btn btn-success">Dodaj produkt</button>
         </div>
     </form>
+</div>
+<h2>Usuń produkt</h2>
 
-    </div>
+    <div id="main-second" class="container">
+        
+                 <% products.forEach((product) =>{ %>
+                    <div id="products">
+
+                    <form method="post" action="/deleteproduct">
+
+                        <img src="/images/<%= product.photo %>" id="product-photo"><br>
+                        <input type="hidden" id="product-name" name="product_name" value="<%=  product.name %>">
+                            <%=  product.name %>
+                        </input><br>
+                            <input type="hidden" name="product_price" value="<%=    product.cena %>">
+                            <%=    product.cena %> zł
+                        </input>
+                       
+                        <input type="submit" class=" btn btn-danger" value="usuń"></input>
+                    </form>
+                </div>
+
+                        <% }); %> 
+
+
     <style>
+     
+         #product-photo{
+        max-width: 100px;
+    }
+    body{
+        width: 100%;
+        height: auto;
+        border: 2px solid blue;
+        border-style: solid none solid none;
+    }
+    #products{
+        width: 200px;
+        height: auto;
+        margin: 1rem;
+        padding: 1rem;
+    }
+        #main-second{
+            align-items: center;
+            height: 400px;
+            width: 80%;
+            display: flex;
+           
+
+        }
         .form-group{
             padding: 1rem;
         }
         #main{
             width: 1000px;
-            height: 700px;
-            border: 2px solid blue;
-            border-style: solid none solid none;
+            height: auto;
+            padding: 1rem;
         }
     </style>
 </body>

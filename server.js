@@ -113,7 +113,9 @@ app.post("/login",(req,res)=>{
 })
 app.get("/admin",(req,res)=>{
 	if (req.session.admin ==true){
-		res.render("admin")
+		connection.query("SELECT * FROM produkty",(err,result)=>{
+			res.render("admin",{products:result})
+			})
 	}
 	else(res.redirect("/404"))
 })
@@ -127,6 +129,11 @@ app.post("/addproducttodb",upload.single('uploaded_file'),(req,res,err)=>{
 		}
 	})
 	let data = req.body
+	connection.query(`INSERT INTO produkty(type,photo,name,cena) VALUES("${data.type}","${data.nazwa}.jpg","${data.nazwa}","${data.cena}")`,(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+	})
 	console.log(data)
 	if(err){
 		console.log(err)
@@ -186,5 +193,14 @@ app.get("/cart",(req,res)=>{
 		res.render("cart",{data:true,name:req.session.username,cart_products: result,test: req.session.shoppingCart,count:productCounts})
 	}
 	)
+})
+app.post("/deleteproduct",(req,res)=>{
+	let data = req.body
+	connection.query(`DELETE FROM produkty WHERE name = "${data.product_name}"`,(err)=>{
+		if (err){
+			console.log(err)
+		}
+		res.redirect("/admin")
+	})
 })
 app.listen(8000)
