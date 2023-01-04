@@ -54,9 +54,26 @@
 
 
     <style>
-     
+      @media screen and (max-width: 800px) {
+    #main,#main-second    {
+        width: 100% !important;
+    }
+    #main-second{
+        flex-wrap: wrap !important; 
+
+    }
+    #products{
+        width: 40% !important;
+        margin: 1rem !important;
+        flex-wrap: wrap;
+    }
+    }
          #product-photo{
         max-width: 100px;
+    }
+    html{
+        height: 100%;
+
     }
     body{
         width: 100%;
@@ -72,7 +89,7 @@
     }
         #main-second{
             align-items: center;
-            height: 400px;
+            height: auto;
             width: 80%;
             display: flex;
            
@@ -82,6 +99,8 @@
             padding: 1rem;
         }
         #main{
+            display: flex;
+            justify-content: center;
             width: 1000px;
             height: auto;
             padding: 1rem;

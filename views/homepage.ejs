@@ -106,8 +106,20 @@
 
 
 <style>
-    
- 
+    @media screen and (max-width: 800px) {
+  #main ,#header,#header-nav,nav     {
+    width: 50%;
+  }
+  #main,#header{
+    flex-wrap: wrap; 
+
+  }
+  nav{
+    font-size: 0.7rem;
+    padding: 0.5rem;
+  }
+}
+
     #shopping-cart{
         width: 50px;
         height: 50px;
@@ -151,13 +163,14 @@
         margin: 0 1rem 1rem 0;
     }
     #main{
+        justify-content: center;
         text-align: center;
         margin: auto;
         margin-top: 2rem;
         padding: auto;
         display: flex;
         width: 80%;
-        height: 700px;
+        height: auto;
         border: 1px solid rgb(81, 106, 143);
         border-style: none solid none solid;
     }
