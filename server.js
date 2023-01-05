@@ -203,4 +203,16 @@ app.post("/deleteproduct",(req,res)=>{
 		res.redirect("/admin")
 	})
 })
+
+app.get("/kreatyna",(req,res)=>{
+	
+	connection.query("SELECT * FROM produkty WHERE type='Kreatyna'",(err,result)=>{
+		if(req.session.logged){
+			res.render("kreatyna",{data:true,products:result})
+		}else{
+			res.render("kreatyna",{data:false,products:result})
+
+		}
+	})
+})
 app.listen(8000)
