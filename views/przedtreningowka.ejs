@@ -17,7 +17,7 @@
         <h2 id="header-h2" class="mx-5">Sklep z suplementami</h2>
 
 
-        <% if(data == true && admin == false){ %>
+        <% if(data == true ){ %>
             <div id="login-register">
                 <a href="/logout" class="btn btn-danger">Wyloguj</a>
                 <div id="username" > <%= name %></div>
@@ -145,6 +145,11 @@
         color: white;
         margin: 0 1rem 1rem 0;
     }
+    #login-sw2{
+        text-decoration: none;
+        color: gray;
+        margin: 0 1rem 1rem 0;
+    }
     #main{
         text-align: center;
         margin: auto;
@@ -203,12 +208,12 @@
   function sweetalert2(){
         Swal.fire({
   title: 'Login Form',
-  html: `<input type="text" name="login" id="login" class="swal2-input" placeholder="Username">
+  html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Username">
   <input type="password" id="password" name="password" class="swal2-input" placeholder="Password">`,
   confirmButtonText: 'Sign in',
   focusConfirm: false,
   preConfirm: () => {
-    const login = Swal.getPopup().querySelector('#login').value
+    const login = Swal.getPopup().querySelector('#login-sw2').value
     const password = Swal.getPopup().querySelector('#password').value
     if (!login || !password) {
       Swal.showValidationMessage(`Please enter login and password`)

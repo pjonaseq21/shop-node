@@ -208,9 +208,42 @@ app.get("/kreatyna",(req,res)=>{
 	
 	connection.query("SELECT * FROM produkty WHERE type='Kreatyna'",(err,result)=>{
 		if(req.session.logged){
-			res.render("kreatyna",{data:true,products:result})
+			res.render("kreatyna",{data:true,products:result,name:req.session.username,cart: req.session.shoppingCart.length})
 		}else{
 			res.render("kreatyna",{data:false,products:result})
+
+		}
+	})
+})
+app.get("/przedtreningowka",(req,res)=>{
+	
+	connection.query("SELECT * FROM produkty WHERE type='Przedtreningowka'",(err,result)=>{
+		if(req.session.logged){
+			res.render("przedtreningowka",{data:true,products:result,name:req.session.username,cart: req.session.shoppingCart.length})
+		}else{
+			res.render("przedtreningowka",{data:false,products:result})
+
+		}
+	})
+})
+app.get("/cytrulina",(req,res)=>{
+	
+	connection.query("SELECT * FROM produkty WHERE type='Cytrulina'",(err,result)=>{
+		if(req.session.logged){
+			res.render("cytrulina",{data:true,products:result,name:req.session.username,cart: req.session.shoppingCart.length})
+		}else{
+			res.render("cytrulina",{data:false,products:result})
+
+		}
+	})
+})
+app.get("/bialko",(req,res)=>{
+	
+	connection.query("SELECT * FROM produkty WHERE type='Bialko'",(err,result)=>{
+		if(req.session.logged){
+			res.render("bialko",{data:true,products:result,name:req.session.username,cart: req.session.shoppingCart.length})
+		}else{
+			res.render("bialko",{data:false,products:result})
 
 		}
 	})

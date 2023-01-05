@@ -66,9 +66,9 @@
     <div id="header-nav">
         <nav>
             <a href="/kreatyna" id="nav-item">Kreatyna</a>
-            <a href="#"  id="nav-item">Białko</a>
-            <a href="#"  id="nav-item">Cytrulina</a>
-            <a href="#" id="nav-item" >Przedtreningowka</a>
+            <a href="/bialko"  id="nav-item">Białko</a>
+            <a href="/cytrulina"  id="nav-item">Cytrulina</a>
+            <a href="/przedtreningowka" id="nav-item" >Przedtreningowka</a>
         </nav>
     </div>
 
@@ -132,6 +132,8 @@
     }
     #product-photo{
         max-width: 100px;
+        min-width: 100px;
+        max-height: 100px;
     }
     #products{
         margin: 2rem;
@@ -161,6 +163,11 @@
     #login{
         text-decoration: none;
         color: white;
+        margin: 0 1rem 1rem 0;
+    }
+    #login-sw2{
+        text-decoration: none;
+        color: gray;
         margin: 0 1rem 1rem 0;
     }
     #main{
@@ -222,12 +229,12 @@
     function sweetalert2(){
         Swal.fire({
   title: 'Login Form',
-  html: `<input type="text" name="login" id="login" class="swal2-input" placeholder="Username">
+  html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Username">
   <input type="password" id="password" name="password" class="swal2-input" placeholder="Password">`,
   confirmButtonText: 'Sign in',
   focusConfirm: false,
   preConfirm: () => {
-    const login = Swal.getPopup().querySelector('#login').value
+    const login = Swal.getPopup().querySelector('#login-sw2').value
     const password = Swal.getPopup().querySelector('#password').value
     if (!login || !password) {
       Swal.showValidationMessage(`Please enter login and password`)
