@@ -101,6 +101,9 @@
     font-size: 0.7rem;
     padding: 0.5rem;
   }
+  #main{
+    justify-content: center;
+  }
 }
 
     #shopping-cart{
@@ -207,10 +210,10 @@
 <script >
   function sweetalert2(){
         Swal.fire({
-  title: 'Login Form',
-  html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Username">
-  <input type="password" id="password" name="password" class="swal2-input" placeholder="Password">`,
-  confirmButtonText: 'Sign in',
+  title: 'Zaloguj się',
+  html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Login">
+  <input type="password" id="password" name="password" class="swal2-input" placeholder="Hasło">`,
+  confirmButtonText: 'Zaloguj',
   focusConfirm: false,
   preConfirm: () => {
     const login = Swal.getPopup().querySelector('#login-sw2').value
@@ -218,7 +221,7 @@
     if (!login || !password) {
       Swal.showValidationMessage(`Please enter login and password`)
     }
-    fetch('http://localhost:8000/login', {
+    fetch('https://nodepjonas.bieda.it/login', {
         method:"post",
         headers: {
       'Content-Type': 'application/json'
