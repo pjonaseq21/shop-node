@@ -221,7 +221,7 @@
     if (!login || !password) {
       Swal.showValidationMessage(`Please enter login and password`)
     }
-    fetch('https://nodepjonas.bieda.it/login', {
+    fetch('http://localhost:8000/login', {
         method:"post",
         headers: {
       'Content-Type': 'application/json'

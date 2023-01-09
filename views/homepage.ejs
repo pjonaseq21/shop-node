@@ -9,7 +9,6 @@
     <title>Strona główna</title>
 </head>
 <body>
-
     <div id="header">
         <a href="/">
         <img src="/images/pobrane.png" alt="" id="logo">
@@ -71,6 +70,7 @@
             <a href="/przedtreningowka" id="nav-item" >Przedtreningowka</a>
         </nav>
     </div>
+    <div id="img-cont"><img src="/images/Screenshot_124.png"id="dog-adv" alt=""></div>
 
     <div id="main">
         <% products.forEach((product) =>{ %>
@@ -123,7 +123,20 @@
     justify-content: center;
   }
 }
+#img-cont{
+    margin: auto;
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
 
+}
+
+#left-side{
+    height: 1000px;
+    width: 50px;
+    float: left;
+}
     #shopping-cart{
         width: 50px;
         height: 50px;
@@ -211,7 +224,7 @@
     #header{
         padding: 1rem;
         align-items: center;
-        width: 80%;
+        width: 100%;
         margin: auto;
        display: flex;
        justify-content: center;
@@ -221,8 +234,8 @@
     display: flex;
     justify-content: center;
     background-color:rgb(81, 106, 143);
-    height: 100px;
-    width: 80%;
+    height: 75px;
+    width: 100%;
     margin: auto;
 
 }
