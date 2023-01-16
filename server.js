@@ -248,4 +248,19 @@ app.get("/bialko",(req,res)=>{
 		}
 	})
 })
+app.get("/register",(req,res)=>{
+	res.render("register")
+})
+app.post("/register",(req,res)=>{
+	let data = req.body
+	connection.query(`INSERT INTO users_data(login,email,password) VALUES("${data.login}","${data.email}","${data.password}")`,(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+
+	})
+
+	console.log(data)
+
+})
 app.listen(8000)

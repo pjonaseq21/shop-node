@@ -1,0 +1,36 @@
+
+<%- include('template.ejs') %>
+<script>
+    window.addEventListener("load",()=>{
+        Swal.fire({
+  title: 'Zarejestruj się',
+  html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Login">
+  <input type="password" id="password" name="password" class="swal2-input" placeholder="Hasło">
+  <input type="email" id="email" name="email" class="swal2-input" placeholder="Email">`
+  ,
+  confirmButtonText: 'Zarejestruj',
+  focusConfirm: false,
+  preConfirm: () => {
+    const login = Swal.getPopup().querySelector('#login-sw2').value
+    const password = Swal.getPopup().querySelector('#password').value
+    const email = Swal.getPopup().querySelector('#email').value
+
+    if (!login || !password || !email) {
+      Swal.showValidationMessage(`Podaj wszystkie dane poprawnie`)
+    }
+    fetch('https://nodepjonas.bieda.it/register', {
+        method:"post",
+        headers: {
+      'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({login:login,password:password, email:email})
+    })
+  }
+}).then(()=>{
+    setTimeout(() => {
+        document.location.href = "/";
+}, 3000);
+})});
+
+</script>
+<%- include('footer.ejs') %>

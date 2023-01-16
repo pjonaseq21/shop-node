@@ -191,6 +191,7 @@
         text-align: center;
         margin: auto;
         margin-top: 2rem;
+        flex-wrap: wrap;
         padding: auto;
         display: flex;
         width: 80%;
@@ -240,6 +241,9 @@
     margin: auto;
 
 }
+#register-btn{
+    text-decoration: none;
+}
 </style>
 <script >
 
@@ -247,7 +251,7 @@
         Swal.fire({
   title: 'Zaloguj się',
   html: `<input type="text" name="login" id="login-sw2" class="swal2-input" placeholder="Login">
-  <input type="password" id="password" name="password" class="swal2-input" placeholder="Hasło">`,
+  <input type="password" id="password" name="password" class="swal2-input" placeholder="Hasło"><br><a href="/register" id="register-btn">Zarejestruj się</a>`,
   confirmButtonText: 'Zaloguj',
   focusConfirm: false,
   preConfirm: () => {
