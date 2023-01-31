@@ -45,7 +45,7 @@ app.get("/",(req,res)=>{
 		console.log(req.session)
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-		res.render("homepage",{data:true,name:req.session.username,products:result,admin:true,cart: req.session.shoppingCart.length})
+		res.render("homepagetwo",{data:true,name:req.session.username,products:result,admin:true,cart: req.session.shoppingCart.length})
 	})
 
 	}
@@ -54,7 +54,7 @@ app.get("/",(req,res)=>{
 
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-			res.render("homepage",{data:true,name:req.session.username,products:result,admin:false,cart:req.session.shoppingCart.length})
+			res.render("homepagetwo",{data:true,name:req.session.username,products:result,admin:false,cart:req.session.shoppingCart.length})
 
 		})
 
@@ -64,7 +64,7 @@ app.get("/",(req,res)=>{
 
 
 		connection.query("SELECT * FROM produkty",(err,result)=>{
-		res.render("homepage",{data:false,products:result})
+		res.render("homepagetwo",{data:false,products:result})
 		})
 	}
 	
@@ -263,4 +263,5 @@ app.post("/register",(req,res)=>{
 	console.log(data)
 
 })
+
 app.listen(8000)
